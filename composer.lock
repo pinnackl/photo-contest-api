@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "210901b7364146b298cc79cbc91df604",
+    "content-hash": "7ea63f1c747665112ced63ca2dfce588",
+    "packages": [
+        {
+            "name": "sophwork/sophwork",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pinnackl/Sophwork.git",
+                "reference": "8e74f17358827c2bdff8be27eb459e71e199fbdd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pinnackl/Sophwork/zipball/8e74f17358827c2bdff8be27eb459e71e199fbdd",
+                "reference": "8e74f17358827c2bdff8be27eb459e71e199fbdd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sophwork\\": "dist/Sophwork"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Syu93",
+                    "email": "herve.tutuaku@gmail.com"
+                }
+            ],
+            "description": "Simple PHP Oject Framework",
+            "time": "2015-11-15 23:13:50"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

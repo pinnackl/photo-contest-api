@@ -1,0 +1,20 @@
+{
+    "name": "sophwork/sophwork",
+    "description": "Simple PHP Oject Framework",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Syu93",
+            "email": "herve.tutuaku@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sophwork\\": "dist/Sophwork"
+        }
+    },
+    "minimum-stability": "dev"
+}
