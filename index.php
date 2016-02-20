@@ -28,6 +28,14 @@ $app->get('/', function ()
 });
 
 $app->get('/get/{apikey}/', function(SophworkApp $app, requests $request, $apikey){		// Inline controller
+	// header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$t = $c->getTournaments();
+	// echo json_encode($t);
+	return "";
+});
+
+$app->get('/create/{apikey}/', function(SophworkApp $app, requests $request, $apikey){		// Inline controller
 	header('Content-Type: application/json');
 	$c = new ChallongeAPI($apikey);
 
