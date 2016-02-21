@@ -108,17 +108,8 @@ class ChallongeAPI {
       switch ($this->status_code) {
       
         case 401: // Bad API Key
-          echo'<pre>';
-          var_dump(401);
-          echo'</pre>';
         case 422: // Validation errors
-          echo'<pre>';
-          var_dump(422);
-          echo'</pre>';
         case 404: // Not found/Not in scope of account
-          echo'<pre>';
-          var_dump(404);
-          echo'</pre>';
           $return = $this->result = new SimpleXMLElement($curl_result);
           foreach($return->error as $error) {
             $this->errors[] = $error;
