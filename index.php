@@ -27,20 +27,26 @@ $app->get('/', function ()
 	return 'api.pinnackl.com';
 });
 
-$app->get('/get/{apikey}/', function(SophworkApp $app, requests $request, $apikey){		// Inline controller
-	// header('Content-Type: application/json');
-	$c = new ChallongeAPI($apikey);
-	$t = $c->getTournaments();
-	// echo json_encode($t);
-	return "";
-});
-
-$app->get('/create/{apikey}/', function(SophworkApp $app, requests $request, $apikey){		// Inline controller
+$app->get('/tournaments/create/{apikey}/{name}/', function(SophworkApp $app, requests $request, $apikey, $tournamentName){		// Inline controller
 	header('Content-Type: application/json');
 	$c = new ChallongeAPI($apikey);
-
-	echo json_encode(['value']);
+	$t = $c->createTournament( array(
+		"tournament[name]" => urlencode("pinnackl_" . $tournamentName),
+		"tournament[url]" => urlencode("pinnackl_" . $tournamentName),
+		"tournament[hold_third_place_match]" => urlencode(true),
+		"tournament[private]" => urlencode(true),		
+	) );
+	echo json_encode($t);
 	return "";
 });
+
+$app->get('/tournaments/get/{apikey}/', function(SophworkApp $app, requests $request, $apikey){		// Inline controller
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$t = $c->getTournaments();
+	echo json_encode($t);
+	return "";
+});
+
 
 $app->run();

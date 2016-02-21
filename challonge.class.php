@@ -39,7 +39,11 @@ class ChallongeAPI {
     $params['api_key'] = $this->api_key;
     
     // Build the URL that'll be hit. If the request is GET, params will be appended later
-    $call_url = "https://challonge.com/api/v1/".$path.'.xml';
+    // $call_url = "https://challonge.com/api/v1/".$path.'.json';
+    $call_url = "https://api.challonge.com/v1/".$path.'.xml';
+    if (isset($this->call_url_spec)){
+      $call_url = $this->call_url_spec;
+    }
     
     $curl_handle=curl_init();
     // Common settings
@@ -57,10 +61,16 @@ class ChallongeAPI {
     // Determine REST verb and set up params
     switch( strtolower($method) ) {
       case "post":
-        $fields = http_build_query($params, '', '&');
-        $curlheaders[] = 'Content-Length: ' . strlen($fields);
-        curl_setopt($curl_handle, CURLOPT_POST, 1);
-        curl_setopt($curl_handle, CURLOPT_POSTFIELDS, $fields);
+        $fields = $params;
+
+        //url-ify the data for the POST
+        $fields_string = "";
+        foreach($fields as $key=>$value) {
+          $fields_string .= $key.'='.$value.'&';
+        }
+        rtrim($fields_string, '&');
+        curl_setopt($curl_handle,CURLOPT_POST, count($fields));
+        curl_setopt($curl_handle,CURLOPT_POSTFIELDS, $fields_string);
         break;
         
       case 'put':
@@ -83,7 +93,7 @@ class ChallongeAPI {
       default:
         $call_url .= "?".http_build_query($params, "", "&");
     }
-    
+
     curl_setopt($curl_handle, CURLOPT_HTTPHEADER, $curlheaders); 
     curl_setopt($curl_handle,CURLOPT_URL, $call_url);
     
@@ -98,8 +108,17 @@ class ChallongeAPI {
       switch ($this->status_code) {
       
         case 401: // Bad API Key
+          echo'<pre>';
+          var_dump(401);
+          echo'</pre>';
         case 422: // Validation errors
+          echo'<pre>';
+          var_dump(422);
+          echo'</pre>';
         case 404: // Not found/Not in scope of account
+          echo'<pre>';
+          var_dump(404);
+          echo'</pre>';
           $return = $this->result = new SimpleXMLElement($curl_result);
           foreach($return->error as $error) {
             $this->errors[] = $error;
@@ -144,6 +163,7 @@ class ChallongeAPI {
       $this->errors = array('$params empty');
       return false;
     }
+    $this->call_url_spec = "https://challonge.com/api/tournaments.xml";
     return $this->makeCall("tournaments", $params, "post");
   }
   
