@@ -27,19 +27,8 @@ $app->get('/', function ()
 	return 'api.pinnackl.com';
 });
 
-$app->get('/tournaments/create/{apikey}/{name}/', function(SophworkApp $app, requests $request, $apikey, $tournamentName){		// Inline controller
-	header('Content-Type: application/json');
-	$c = new ChallongeAPI($apikey);
-	$t = $c->createTournament( array(
-		"tournament[name]" => urlencode("pinnackl_" . $tournamentName),
-		"tournament[url]" => urlencode("pinnackl_" . $tournamentName),
-		"tournament[hold_third_place_match]" => urlencode(true),
-		"tournament[private]" => urlencode(true),		
-	) );
-	echo json_encode($t);
-	return "";
-});
-
+// Tournament API call
+// Get all owned tournaments
 $app->get('/tournaments/get/{apikey}/', function(SophworkApp $app, requests $request, $apikey){		// Inline controller
 	header('Content-Type: application/json');
 	$c = new ChallongeAPI($apikey);
@@ -47,6 +36,54 @@ $app->get('/tournaments/get/{apikey}/', function(SophworkApp $app, requests $req
 	echo json_encode($t);
 	return "";
 });
+
+// Create a tournament
+$app->get('/tournament/create/{apikey}/{name}/', function(SophworkApp $app, requests $request, $apikey, $tournamentName){		// Inline controller
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$t = $c->createTournament( array(
+		"tournament[name]" => urlencode("pinnackl_" . $tournamentName),
+		"tournament[url]" => urlencode("pinnackl_" . $tournamentName),
+		"tournament[hold_third_place_match]" => urlencode(true),
+		"tournament[private]" => urlencode(true),
+	) );
+	echo json_encode($t);
+	return "";
+});
+
+// Read a tournament
+$app->get('/tournament/get/{apikey}/{id}/', function(SophworkApp $app, requests $request, $apikey, $id){
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$params = array("include_matches " => 1, "include_participants" => 1);
+	$t = $c->getTournament($id);
+	echo json_encode($t);
+	return "";
+});
+
+// Update a tournament
+$app->get('/tournament/update/{apikey}/{id}/{name}/', function(SophworkApp $app, requests $request, $apikey, $id, $tournamentName){		// Inline controller
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$t = $c->updateTournament($id, array(
+		"tournament[name]" => urlencode("pinnackl_" . $tournamentName),
+		"tournament[url]" => urlencode("pinnackl_" . $tournamentName),
+		"tournament[hold_third_place_match]" => urlencode(true),
+		"tournament[private]" => urlencode(true),
+	) );
+	echo json_encode($t);
+	return "";
+});
+
+// Delete a tournament
+$app->get('/tournament/delete/{apikey}/{id}/', function(SophworkApp $app, requests $request, $apikey, $id){		// Inline controller
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$t = $c->deleteTournament($id);
+	echo json_encode($t);
+	return "";
+});
+
 
 
 $app->run();
