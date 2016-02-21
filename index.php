@@ -84,6 +84,26 @@ $app->get('/tournament/delete/{apikey}/{id}/', function(SophworkApp $app, reques
 	return "";
 });
 
+// Tournament participant API call
+// Create a participant
+$app->get('/tournament/{id}/participant/create/{apikey}/{participantName}/', function(SophworkApp $app, requests $request, $id, $apikey, $participantName){		// Inline controller
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	
+	$params = array("participant[name]" => $participantName . '_' .rand());
+	$participant = $c->createParticipant($id, $params);
+	echo json_encode($participant);
+	return "";
+});
 
+// Read participant
+$app->get('/tournament/{id}/participant/get/{apikey}/{participantId}/', function(SophworkApp $app, requests $request, $id, $apikey, $participantId){		// Inline controller
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$params = array("inlcude_matches" => "1");
+	$participant = $c->getParticipant($id, $participantId, $params);
+	echo json_encode($participant);
+	return "";
+});
 
 $app->run();
