@@ -132,7 +132,7 @@ $app->get('/tournament/{id}/match/update/{apikey}/{matchId}/score/{score}/', fun
 	$params = array(
 	  	"match[scores_csv]" => $score
 	);
-	$match = $c->updateMatchMatch($id, $matchId, $params);
+	$match = $c->updateMatch($id, $matchId, $params);
 	echo json_encode($match);
 	return "";
 });
@@ -144,7 +144,7 @@ $app->get('/tournament/{id}/match/update/{apikey}/{matchId}/winner/{winnerId}/',
 	$params = array(
 	  	"match[winner_id]" => $winnerId
 	);
-	$match = $c->updateMatchMatch($id, $matchId, $params);
+	$match = $c->updateMatch($id, $matchId, $params);
 	echo json_encode($match);
 	return "";
 });
