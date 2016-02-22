@@ -14,7 +14,7 @@ use Sophwork\modules\handlers\responses\Responses;
 // Set up the source path for the autoloader
 // $autoloader->sources = __DIR__ . '/../src/';
 
-$app = new SophworkApp(["baseUri" => "/photo-contest-api"]);
+$app = new SophworkApp();
 
 $app->debug = true;
 
