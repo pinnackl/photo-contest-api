@@ -14,7 +14,7 @@ use Sophwork\modules\handlers\responses\Responses;
 // Set up the source path for the autoloader
 // $autoloader->sources = __DIR__ . '/../src/';
 
-$app = new SophworkApp();
+$app = new SophworkApp(["baseUri" => "/photo-contest-api"]);
 
 $app->debug = true;
 
@@ -105,5 +105,49 @@ $app->get('/tournament/{id}/participant/get/{apikey}/{participantId}/', function
 	echo json_encode($participant);
 	return "";
 });
+
+// Get all matches for a tournament
+$app->get('/tournament/{id}/matches/get/{apikey}/', function(SophworkApp $app, requests $request, $id, $apikey){		// Inline controller
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$params = array();
+	$matches = $c->getMatches($id, $params);
+	echo json_encode($matches);
+	return "";
+});
+
+// Get one matche for a tournament
+$app->get('/tournament/{id}/match/get/{apikey}/{matchId}/', function(SophworkApp $app, requests $request, $id, $apikey, $matchId){		// Inline controller
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$match = $c->getMatch($id, $matchId);
+	echo json_encode($match);
+	return "";
+});
+
+// Update a match and submit scores
+$app->get('/tournament/{id}/match/update/{apikey}/{matchId}/score/{score}/', function(SophworkApp $app, requests $request, $id, $apikey, $matchId, $score){		// Inline controller
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$params = array(
+	  	"match[scores_csv]" => $score
+	);
+	$match = $c->updateMatchMatch($id, $matchId, $params);
+	echo json_encode($match);
+	return "";
+});
+
+// Update a match and submit winner
+$app->get('/tournament/{id}/match/update/{apikey}/{matchId}/winner/{winnerId}/', function(SophworkApp $app, requests $request, $id, $apikey, $matchId, $winnerId){		// Inline controller
+	header('Content-Type: application/json');
+	$c = new ChallongeAPI($apikey);
+	$params = array(
+	  	"match[winner_id]" => $winnerId
+	);
+	$match = $c->updateMatchMatch($id, $matchId, $params);
+	echo json_encode($match);
+	return "";
+});
+
 
 $app->run();
