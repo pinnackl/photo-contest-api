@@ -138,13 +138,14 @@ $app->get('/tournament/{id}/match/update/{apikey}/{matchId}/score/{score}/', fun
 });
 
 // Update a match and submit winner
-$app->get('/tournament/{id}/match/update/{apikey}/{matchId}/winner/{winnerId}/', function(SophworkApp $app, requests $request, $id, $apikey, $matchId, $winnerId){		// Inline controller
+$app->get('/tournament/{id}/match/update/{apikey}/{matchId}/winner/{winnerId}/score/{score}', function(SophworkApp $app, requests $request, $id, $apikey, $matchId, $winnerId, $score){		// Inline controller
 	header('Content-Type: application/json');
 	$c = new ChallongeAPI($apikey);
 	$params = array(
+		"match[scores_csv]" => $score,
 	  	"match[winner_id]" => $winnerId
 	);
-	$match = $c->updateMatch($id, $matchId, $params);
+	$match = $c->updateMatchMatch($id, $matchId, $params);
 	echo json_encode($match);
 	return "";
 });
